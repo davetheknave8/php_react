@@ -1,8 +1,20 @@
-import React from 'react';
+import React, {Component} from 'react';
 import logo from './logo.svg';
 import './App.css';
+import axios from 'axios';
 
-function App() {
+class App extends Component {
+
+
+  getNames = () => {
+    axios.get('/pets.php') 
+      .then(response => {
+        console.log(response);
+      })
+  }
+
+  render(){
+    this.getNames();
   return (
     <div className="App">
       <header className="App-header">
@@ -21,6 +33,7 @@ function App() {
       </header>
     </div>
   );
+  }
 }
 
 export default App;
