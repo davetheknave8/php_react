@@ -78,6 +78,10 @@ class Owners extends Component {
         this.setState({newOwner: ''})
     }
 
+    goDashboard = () => {
+        this.props.history.push('/pets');
+    }
+
     render() {
         const {classes} = this.props;
         console.log(this.props.reduxStore.ownerReducer);
@@ -90,7 +94,7 @@ class Owners extends Component {
                 </header>
             </div> 
             <div className={classes.navigate}>
-                <Button className={classes.navToBtn} variant="contained">Dashboard</Button>
+                <Button className={classes.navToBtn} variant="contained" onClick={this.goDashboard}>Dashboard</Button>
                 <Button className={classes.navBtn} variant="contained" >Manage Owners</Button>
             </div>
             <div>
