@@ -4,7 +4,7 @@ import axios from 'axios';
 
 function* getOwners(){
     try{
-        const response = yield axios.get('/pets.php');
+        const response = yield axios.get('/owners.php');
         console.log(response);
         yield put({type: 'SET_OWNER', payload: response.data});                
     }
