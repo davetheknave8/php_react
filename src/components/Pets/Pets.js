@@ -26,6 +26,7 @@ class Pets extends Component{
 
     componentDidMount = () => {
         this.props.dispatch({type: 'FETCH_OWNERS'});
+        this.props.dispatch({type: 'FETCH_PETS'});
     }
 
     state={
@@ -88,7 +89,7 @@ class Pets extends Component{
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {this.props.reduxStore.ownerReducer.map(item => (
+                        {this.props.reduxStore.petsReducer.map(item => (
                             <TableRow key={item.id}>
                                 <TableCell>{item.owner_id}</TableCell>
                                 <TableCell>{item.pet_name}</TableCell>
@@ -96,6 +97,7 @@ class Pets extends Component{
                                 <TableCell>{item.color}</TableCell>
                                 <TableCell>{item.checked_in}</TableCell>
                                 <TableCell>{item.actions}</TableCell>
+
                             </TableRow>
                        
                         ))}
