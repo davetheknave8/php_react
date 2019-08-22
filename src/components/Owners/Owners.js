@@ -75,7 +75,7 @@ class Owners extends Component {
 
     handleSubmit = (event) => {
         event.preventDefault();
-        this.props.dispatch({type: 'ADD_OWNER', payload: {name: this.state.newOwner}})
+        this.props.dispatch({type: 'ADD_OWNER', payload: this.state.newOwner})
         this.setState({newOwner: ''})
     }
 
