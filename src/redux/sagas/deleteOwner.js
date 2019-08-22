@@ -1,7 +1,7 @@
 import { put } from 'redux-saga/effects';
 import axios from 'axios';
 
-function* deleteOwner(){
+function* deleteOwner(action){
     try{
         const objectToSend = JSON.stringify(action.payload);
         yield axios.delete('/deleteOwner.php', objectToSend)
