@@ -109,6 +109,19 @@ class Pets extends Component {
             [propName]: event.target.value
         })
     }
+
+    handleSubmit = (event) => {
+        console.log('in HandleSubmit');
+        event.preventDefault();
+        this.props.dispatch({ type: 'ADD_PETS', payload: this.state })
+        this.setState({
+            owner_id: '',
+            pet_name: '',
+            color: '',
+            breed: '',
+            checked_in: '',
+        })
+    }
     render() {
         console.log('this.state:', this.state)
         const { classes } = this.props;
@@ -128,7 +141,7 @@ class Pets extends Component {
                     <Button className={classes.navToBtn} variant="contained" onClick={this.goDashboard} >Manage Owners</Button>
                 </div>
                 <div className={classes.form}>
-                    <form className={classes.formTwo}>
+                    <form onSubmit={event => this.handleSubmit(event)} className={classes.formTwo}>
                         <TextField
                             className={classes.textField}
                             value={this.state.pet_name}
@@ -159,13 +172,13 @@ class Pets extends Component {
                     </InputLabel>
                             <Select
                                 onChange={(event) => this.handleChangeFor(event, 'owner')}
-                                value={this.state.owner}
+                                value={this.state.owner_id}
                             >
                                 {this.props.reduxStore.ownerReducer.map((item) => {
                                     return (
                                         <MenuItem
                                             key={item.id}
-                                            value={item.name}
+                                            value={item.id}
                                         >
                                             {item.name}
                                         </MenuItem>
@@ -175,7 +188,7 @@ class Pets extends Component {
 
                         </FormControl>
 
-                        <Button variant="contained" className={classes.button} color="primary" size="small">Submit</Button>
+                        <Button type="submit" variant="contained" className={classes.button} color="primary" size="small">Submit</Button>
                     </form>
                 </div>
                 <br />
