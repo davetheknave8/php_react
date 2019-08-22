@@ -3,9 +3,10 @@ import axios from 'axios';
 
 function* addOwner(action){
     try{
-        let objectToSend = JSON.stringify(action.payload);
+        let objectToSend = action.payload;
+        // let objectToSend = action.payload;
         console.log(objectToSend);
-        yield axios.post('/addOwner.php', objectToSend);
+        yield axios.post('/addOwner.php', `name=${objectToSend}`);
         yield put({type: 'FETCH_OWNERS'});
     }
     catch(error){
