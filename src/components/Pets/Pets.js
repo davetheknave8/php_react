@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Table from '@material-ui/core/Table';
 import TableHead from '@material-ui/core/TableHead';
@@ -9,101 +9,205 @@ import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 
+// test
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import NativeSelect from '@material-ui/core/NativeSelect';
+import InputBase from '@material-ui/core/InputBase';
+
 
 
 const styles = theme => ({
     button: {
-      margin: theme.spacing.unit,
+        margin: theme.spacing.unit,
+        marginLeft: '1.5%',
+        marginTop: '5%',
+        backgroundColor: 'gray'
+    },
+    form: {
+        margin: 'auto',
+        marginTop: '2%',
+        backgroundColor: '#f5e0bf',
+        width: '70%'
+    },
+    formTwo: {
+        textAlign: 'center',
+        paddingBottom: '2%'
+    },
+    header: {
+        backgroundColor: 'gray',
+        padding: '10px',
+        color: '#f5e0bf',
+        fontFamily: `'Adamina', serif`,
+        textAlign: 'center',
+        fontSize: '1.5em',
+        letterSpacing: '100px'
+
     },
     input: {
-      display: 'none',
+        display: 'none',
     },
-  });
-  
-  
+    navigate: {
+        height: '8vh',
+        backgroundColor: '#f5e0bf'
+    },
+    navBtn: {
+        width: '60vh',
+        marginTop: '1vh',
+        backgroundColor: 'gray',
+    },
+    navToBtn: {
+        marginLeft: '50vh',
+        marginTop: '1vh',
+        width: '60vh'
+    },
+    ownerLabel: {
+        margin: theme.spacing.unit,
+        marginLeft: '1%',
+        marginTop: '3.0%'
+    },
+    tableHead: {
+        fontWeight: 'bold',
+        fontSize: '5px'
+    },
+    textField: {
+        margin: theme.spacing.unit,
+        marginLeft: '1.5%',
+        marginTop: '5%'
 
-class Pets extends Component{
+    },
+});
+
+
+
+
+
+class Pets extends Component {
 
     componentDidMount = () => {
-        this.props.dispatch({type: 'FETCH_OWNERS'});
-        this.props.dispatch({type: 'FETCH_PETS'});
+        this.props.dispatch({ type: 'FETCH_OWNERS' });
+        this.props.dispatch({ type: 'FETCH_PETS' });
     }
 
-    state={
+    state = {
         owner: '',
         pet_name: '',
+        color: '',
         breed: '',
         checked_in: '',
     }
 
-    render(){
+    goDashboard = () => {
+        this.props.history.push('/owners');
+    }
 
+    handleChangeFor = (event, propName) => {
+
+        this.setState({
+            [propName]: event.target.value
+        })
+    }
+    render() {
+        console.log('this.state:', this.state)
         const { classes } = this.props;
- 
 
-        return(
+
+
+        return (
+
             <>
-            <div>
-                <form>
-                    <TextField 
-                    value={this.state.pet_name} 
-                    type="text" 
-                    placeholder="Pet Name" 
-                    name="pet name"/>
+                <div className={classes.header}>
+                    <header>
+                        <h1>Pet Hotel</h1>
+                    </header>
+                </div>
+                <div className={classes.navigate}>
+                    <Button className={classes.navBtn} variant="contained">Manage Pets</Button>
+                    <Button className={classes.navToBtn} variant="contained" onClick={this.goDashboard} >Manage Owners</Button>
+                </div>
+                <div className={classes.form}>
+                    <form className={classes.formTwo}>
+                        <TextField
+                            className={classes.textField}
+                            value={this.state.pet_name}
+                            type="text"
+                            placeholder="Pet Name"
+                            onChange={(event) => this.handleChangeFor(event, 'pet_name')}
+                        />
 
-                    <TextField 
-                    value={this.state.pet_name} 
-                    type="text" 
-                    placeholder="Pet Color" 
-                    name="pet color"/>
+                        <TextField
+                            className={classes.textField}
+                            value={this.state.color}
+                            type="text"
+                            placeholder="Pet Color"
+                            onChange={(event) => this.handleChangeFor(event, 'color')}
+                        />
 
-                    <TextField 
-                    value={this.state.pet_name} 
-                    type="text" placeholder="Pet Breed" 
-                    name="breed"/>
-                    <select>
-                        {this.props.reduxStore.ownerReducer.map((item) => { 
-                            return (
+                        <TextField
+                            className={classes.textField}
+                            type="text"
+                            placeholder="Pet Breed"
+                            onChange={(event) => this.handleChangeFor(event, 'breed')}
+                            value={this.state.breed}
+                        />
 
-                                <option key={item.id}>{item.name}</option>
-                        )    
-                        })} 
-                    </select>
-                    <Button variant="contained" className={classes.button} color="primary" size="small">Submit</Button>
-                </form>
-            </div>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <div>
-                <Table>
-                    <TableHead>
-                        <TableRow>
-                            <th>Owner</th>
-                            <th>Pet</th>
-                            <th>Breed</th>
-                            <th>Color</th>
-                            <th>Checked In</th>
-                            <th>Actions</th>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {this.props.reduxStore.petsReducer.map(item => (
-                            <TableRow key={item.id}>
-                                <TableCell>{item.owner_id}</TableCell>
-                                <TableCell>{item.pet_name}</TableCell>
-                                <TableCell>{item.breed}</TableCell>
-                                <TableCell>{item.color}</TableCell>
-                                <TableCell>{item.checked_in}</TableCell>
-                                <TableCell>{item.actions}</TableCell>
+                        <FormControl className={classes.ownerLabel}>
+                            <InputLabel htmlFor="owner-customized=select" className={classes.bootstrapFormLabel}>
+                                Owner
+                    </InputLabel>
+                            <Select
+                                onChange={(event) => this.handleChangeFor(event, 'owner')}
+                                value={this.state.owner}
+                            >
+                                {this.props.reduxStore.ownerReducer.map((item) => {
+                                    return (
+                                        <MenuItem
+                                            key={item.id}
+                                            value={item.name}
+                                        >
+                                            {item.name}
+                                        </MenuItem>
+                                    )
+                                })}
+                            </Select>
 
-                            </TableRow>
-                       
-                        ))}
-                    </TableBody>
-                </Table>
-            </div>
+                        </FormControl>
+
+                        <Button variant="contained" className={classes.button} color="primary" size="small">Submit</Button>
+                    </form>
+                </div>
+                <br />
+                <br />
+                <br />
+                <br />
+                <div>
+                    <Table>
+                        <TableHead className={classes.tableHead}>
+                            <TableCell>Owner</TableCell>
+                            <TableCell>Pet</TableCell>
+                            <TableCell>Breed</TableCell>
+                            <TableCell>Color</TableCell>
+                            <TableCell>Checked In</TableCell>
+                            <TableCell>&nbsp;</TableCell>
+                        </TableHead>
+                        <TableBody>
+                            {this.props.reduxStore.petsReducer.map(item => (
+                                <TableRow key={item.id}>
+                                    <TableCell>{item.name}</TableCell>
+                                    <TableCell>{item.pet_name}</TableCell>
+                                    <TableCell>{item.breed}</TableCell>
+                                    <TableCell>{item.color}</TableCell>
+                                    <TableCell>{item.checked_in ? item.checked_in : 'No'}</TableCell>
+                                    <TableCell>{item.actions}</TableCell>
+
+                                </TableRow>
+
+                            ))}
+                        </TableBody>
+                    </Table>
+                </div>
             </>
         )
     }
