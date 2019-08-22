@@ -15,7 +15,7 @@ const styles = theme => ({
 
 class OwnerListItem extends Component{
     handleDelete = () => {
-        this.props.dispatch({type: 'DELETE_OWNER', payload: {id: this.props.owner.id}});
+        this.props.dispatch({type: 'DELETE_OWNER', payload: {id: Number(this.props.owner.id)}});
     }
 
     render(){

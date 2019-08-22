@@ -1,10 +1,10 @@
 import { put } from 'redux-saga/effects';
 import axios from 'axios';
 
-function* deleteOwner(){
+function* deleteOwner(action){
     try{
         const objectToSend = JSON.stringify(action.payload);
-        yield axios.delete('/deleteOwner.php', objectToSend)
+        yield axios.delete(`/deleteOwner.php?id=${Number(action.payload.id)}`)
         yield put({type: 'FETCH_OWNERS'});
     }
     catch(error){
