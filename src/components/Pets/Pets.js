@@ -9,6 +9,8 @@ import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 
+import Moment from 'react-moment';
+
 // test
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -54,14 +56,15 @@ const styles = theme => ({
         backgroundColor: '#f5e0bf'
     },
     navBtn: {
-        width: '60vh',
+        width: '30%',
         marginTop: '1vh',
         backgroundColor: 'gray',
+        marginLeft: '20%',
     },
     navToBtn: {
-        marginLeft: '50vh',
+        
         marginTop: '1vh',
-        width: '60vh'
+        width: '30%'
     },
     ownerLabel: {
         margin: theme.spacing.unit,
@@ -78,8 +81,8 @@ const styles = theme => ({
         marginTop: '5%'
 
     },
+    
 });
-
 
 
 
@@ -89,6 +92,7 @@ class Pets extends Component {
     componentDidMount = () => {
         this.props.dispatch({ type: 'FETCH_OWNERS' });
         this.props.dispatch({ type: 'FETCH_PETS' });
+        this.getDate();
     }
 
     state = {
@@ -97,6 +101,15 @@ class Pets extends Component {
         color: '',
         breed: '',
         checked_in: '',
+        date: ''
+    }
+
+    getDate = () => {
+        let d = new Date();
+        d.getMonth();
+        d.getFullYear();
+        d.getDate();
+        this.setState({date: d})
     }
 
     goDashboard = () => {
@@ -122,6 +135,19 @@ class Pets extends Component {
             checked_in: '',
         })
     }
+
+    handleDelete = (id) => {
+        this.props.dispatch({type: 'DELETE_PET', payload: {id: id}})
+    }
+
+    handleCheckIn = (id) => {
+        this.props.dispatch({ type: 'CHECKIN_PET', payload: { id: id, date: this.state.date }})
+    }
+
+    handleCheckout = (id) => {
+        this.props.dispatch({ type: 'CHECKOUT_PET', payload: { id: id }})
+    }
+
     render() {
         console.log('this.state:', this.state)
         const { classes } = this.props;
@@ -172,7 +198,8 @@ class Pets extends Component {
                     </InputLabel>
                             <Select
                                 onChange={(event) => this.handleChangeFor(event, 'owner')}
-                                value={this.state.owner_id}
+                                value={this.state.owner}
+                                className={classes.select}
                             >
                                 {this.props.reduxStore.ownerReducer.map((item) => {
                                     return (
@@ -212,8 +239,15 @@ class Pets extends Component {
                                     <TableCell>{item.pet_name}</TableCell>
                                     <TableCell>{item.breed}</TableCell>
                                     <TableCell>{item.color}</TableCell>
-                                    <TableCell>{item.checked_in ? item.checked_in : 'No'}</TableCell>
+                                    <TableCell>{item.checked_in ? <Moment format="MM/DD/YYYY HH:mm">{item.checked_in}</Moment> : 'No'}</TableCell>
                                     <TableCell>{item.actions}</TableCell>
+                                    <TableCell>
+                                        {item.checked_in ? 
+                                        <Button variant="contained" color="primary" onClick={() => this.handleCheckout(item.id)}>Check-Out</Button>
+                                        :
+                                        <Button variant="contained" color="primary" onClick={() => this.handleCheckIn(item.id)}>Check-In</Button>}
+                                        <Button variant="contained" color="secondary" onClick={() => this.handleDelete(item.id)}>Delete</Button>
+                                    </TableCell>
 
                                 </TableRow>
 
