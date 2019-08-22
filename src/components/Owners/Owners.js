@@ -33,14 +33,14 @@ const styles = theme => ({
         backgroundColor: '#f5e0bf'
     },
     navBtn: {
-        width: '60vh',
+        width: '30%',
         marginTop: '1vh',
         backgroundColor: 'gray',
     },
     navToBtn: {
-        marginLeft: '50vh',
+        marginLeft: '20%',
         marginTop: '1vh',
-        width: '60vh'
+        width: '30%'
     },
     form: {
         marginLeft: '20vh'
@@ -75,6 +75,7 @@ class Owners extends Component {
 
     handleSubmit = (event) => {
         event.preventDefault();
+        this.props.dispatch({type: 'ADD_OWNER', payload: {name: this.state.newOwner}})
         this.setState({newOwner: ''})
     }
 
@@ -84,7 +85,6 @@ class Owners extends Component {
 
     render() {
         const {classes} = this.props;
-        console.log(this.props.reduxStore.ownerReducer);
         return (
             <>
             
