@@ -62,7 +62,7 @@ const styles = theme => ({
         marginLeft: '20%',
     },
     navToBtn: {
-        
+
         marginTop: '1vh',
         width: '30%'
     },
@@ -81,7 +81,7 @@ const styles = theme => ({
         marginTop: '5%'
 
     },
-    
+
 });
 
 
@@ -109,7 +109,7 @@ class Pets extends Component {
         d.getMonth();
         d.getFullYear();
         d.getDate();
-        this.setState({date: d})
+        this.setState({ date: d })
     }
 
     goDashboard = () => {
@@ -138,15 +138,15 @@ class Pets extends Component {
     }
 
     handleDelete = (id) => {
-        this.props.dispatch({type: 'DELETE_PET', payload: {id: id}})
+        this.props.dispatch({ type: 'DELETE_PET', payload: { id: id } })
     }
 
     handleCheckIn = (id) => {
-        this.props.dispatch({ type: 'CHECKIN_PET', payload: { id: id, date: this.state.date }})
+        this.props.dispatch({ type: 'CHECKIN_PET', payload: { id: id, date: this.state.date } })
     }
 
     handleCheckout = (id) => {
-        this.props.dispatch({ type: 'CHECKOUT_PET', payload: { id: id }})
+        this.props.dispatch({ type: 'CHECKOUT_PET', payload: { id: id } })
     }
 
     handleUpdate = (item) => {
@@ -159,19 +159,27 @@ class Pets extends Component {
             breed: item.breed,
             checked_in: item.checked_in,
             update: true,
-          })
-        } 
+        })
+    }
 
-        submitUpdate = () => {
-            this.props.dispatch({type: 'UPDATE_PET', payload: this.state})
-            
-        }
+    submitUpdate = () => {
+        this.props.dispatch({ type: 'UPDATE_PET', payload: this.state })
+        this.setState({
+            owner: '',
+            pet_name: '',
+            color: '',
+            breed: '',
+            checked_in: '',
+            update: false
+        })
+
+    }
 
 
-      
-            
-    
-        
+
+
+
+
 
 
     render() {
@@ -193,7 +201,7 @@ class Pets extends Component {
                     <Button className={classes.navToBtn} variant="contained" onClick={this.goDashboard} >Manage Owners</Button>
                 </div>
                 <div className={classes.form}>
-                    <form onSubmit={event => this.handleSubmit(event)} className={classes.formTwo}>
+                    <form className={classes.formTwo}>
                         <TextField
                             className={classes.textField}
                             value={this.state.pet_name}
@@ -240,10 +248,10 @@ class Pets extends Component {
                             </Select>
 
                         </FormControl>
-                        {this.state.update ? 
-                        <Button onClick= {() => this.submitUpdate()}type="submit" variant="contained" className={classes.button} color="primary" size="small">Update</Button>
-                        :
-                        <Button type="submit" variant="contained" className={classes.button} color="primary" size="small">Submit</Button>
+                        {this.state.update ?
+                            <Button onClick={() => this.submitUpdate()} type="submit" variant="contained" className={classes.button} color="primary" size="small">Update</Button>
+                            :
+                            <Button onClick={event => this.handleSubmit(event)} type="submit" variant="contained" className={classes.button} color="primary" size="small">Submit</Button>
                         }
                     </form>
                 </div>
@@ -262,11 +270,11 @@ class Pets extends Component {
                             <TableCell>&nbsp;</TableCell>
                         </TableHead>
                         <TableBody>
-                            
+
                             {this.props.reduxStore.petsReducer.map(item => (
-                                
+
                                 <TableRow key={item.id}>
-                                    
+
                                     <TableCell>{item.name}</TableCell>
                                     <TableCell>{item.pet_name}</TableCell>
                                     <TableCell>{item.breed}</TableCell>
@@ -274,13 +282,13 @@ class Pets extends Component {
                                     <TableCell>{item.checked_in ? <Moment format="MM/DD/YYYY HH:mm">{item.checked_in}</Moment> : 'No'}</TableCell>
                                     <TableCell>{item.actions}</TableCell>
                                     <TableCell>
-                                        {item.checked_in ? 
-                                        <Button variant="contained" color="primary" onClick={() => this.handleCheckout(item.id)}>Check-Out</Button>
-                                        :
-                                        <Button variant="contained" color="primary" onClick={() => this.handleCheckIn(item.id)}>Check-In</Button>}
+                                        {item.checked_in ?
+                                            <Button variant="contained" color="primary" onClick={() => this.handleCheckout(item.id)}>Check-Out</Button>
+                                            :
+                                            <Button variant="contained" color="primary" onClick={() => this.handleCheckIn(item.id)}>Check-In</Button>}
                                         <DeleteIcon variant="contained" color="secondary" onClick={() => this.handleDelete(item.id)}>Delete</DeleteIcon>
-                                        <EditIcon variant="contained" onClick={() => this.handleUpdate(item)}>Update</EditIcon>
-                                        
+                                        <EditIcon variant="contained" onClick={() => this.handleUpdate(item)}>Edit</EditIcon>
+
                                     </TableCell>
 
                                 </TableRow>
