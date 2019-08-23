@@ -1,4 +1,4 @@
-import { all, takeEvery } from 'redux-saga/effects';
+import { takeEvery } from 'redux-saga/effects';
 import getOwners from './getOwners';
 import getPets from './getPets';
 import addOwner from './addOwner';

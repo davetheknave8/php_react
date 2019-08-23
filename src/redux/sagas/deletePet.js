@@ -3,7 +3,6 @@ import axios from 'axios';
 
 function* deletePet(action) {
     try {
-        const objectToSend = JSON.stringify(action.payload);
         yield axios.delete(`/deletePet.php?id=${Number(action.payload.id)}`)
         yield put({ type: 'FETCH_PETS' });
     }
