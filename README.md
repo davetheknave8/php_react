@@ -17,8 +17,11 @@ Runs the app in the development mode.<br>
     - Set Server to [php -S 0.0.0:4000]
 
 # Images
+similiar to React.js we run an axios.post to the file path '/addOwner.php' with the data that we want to associate with it. 
 ![Add-Owner-Client-Side](/images/addOwnerClientSideSaga.png)
 
+- on the server-side, which is entirely PHP, we make the connection to our db using 'pg_connect'
+- the file_get_contents('php://input') is where the file_get_contents is reading the 'php://input which is the POST we sent over from the client-side.
 ![Add-Owner-Client-Side](/images/addOwnerServerSide.png)
 
 ## Resources
