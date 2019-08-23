@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import Moment from 'react-moment';
+
+// Material UI
 import Table from '@material-ui/core/Table';
 import TableHead from '@material-ui/core/TableHead';
 import TableBody from '@material-ui/core/TableBody';
@@ -8,16 +11,13 @@ import TableCell from '@material-ui/core/TableCell';
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
-
-import Moment from 'react-moment';
-
-// test
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import NativeSelect from '@material-ui/core/NativeSelect';
-import InputBase from '@material-ui/core/InputBase';
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
+
 
 
 
@@ -128,11 +128,12 @@ class Pets extends Component {
         event.preventDefault();
         this.props.dispatch({ type: 'ADD_PETS', payload: this.state })
         this.setState({
-            owner_id: '',
+            owner: '',
             pet_name: '',
             color: '',
             breed: '',
             checked_in: '',
+            update: false
         })
     }
 
@@ -147,6 +148,31 @@ class Pets extends Component {
     handleCheckout = (id) => {
         this.props.dispatch({ type: 'CHECKOUT_PET', payload: { id: id }})
     }
+
+    handleUpdate = (item) => {
+        console.log(item);
+        this.setState({
+            id: item.id,
+            owner: item.owner_id,
+            pet_name: item.pet_name,
+            color: item.color,
+            breed: item.breed,
+            checked_in: item.checked_in,
+            update: true,
+          })
+        } 
+
+        submitUpdate = () => {
+            this.props.dispatch({type: 'UPDATE_PET', payload: this.state})
+            
+        }
+
+
+      
+            
+    
+        
+
 
     render() {
         console.log('this.state:', this.state)
@@ -214,8 +240,11 @@ class Pets extends Component {
                             </Select>
 
                         </FormControl>
-
+                        {this.state.update ? 
+                        <Button onClick= {() => this.submitUpdate()}type="submit" variant="contained" className={classes.button} color="primary" size="small">Update</Button>
+                        :
                         <Button type="submit" variant="contained" className={classes.button} color="primary" size="small">Submit</Button>
+                        }
                     </form>
                 </div>
                 <br />
@@ -233,8 +262,11 @@ class Pets extends Component {
                             <TableCell>&nbsp;</TableCell>
                         </TableHead>
                         <TableBody>
+                            
                             {this.props.reduxStore.petsReducer.map(item => (
+                                
                                 <TableRow key={item.id}>
+                                    
                                     <TableCell>{item.name}</TableCell>
                                     <TableCell>{item.pet_name}</TableCell>
                                     <TableCell>{item.breed}</TableCell>
@@ -246,7 +278,9 @@ class Pets extends Component {
                                         <Button variant="contained" color="primary" onClick={() => this.handleCheckout(item.id)}>Check-Out</Button>
                                         :
                                         <Button variant="contained" color="primary" onClick={() => this.handleCheckIn(item.id)}>Check-In</Button>}
-                                        <Button variant="contained" color="secondary" onClick={() => this.handleDelete(item.id)}>Delete</Button>
+                                        <DeleteIcon variant="contained" color="secondary" onClick={() => this.handleDelete(item.id)}>Delete</DeleteIcon>
+                                        <EditIcon variant="contained" onClick={() => this.handleUpdate(item)}>Update</EditIcon>
+                                        
                                     </TableCell>
 
                                 </TableRow>

@@ -10,6 +10,7 @@ import logger from 'redux-logger';
 import rootReducer from './redux/reducers'; // imports ./redux/reducers/index.js
 import rootSaga from './redux/sagas'; // imports ./redux/sagas/index.js
 
+
 const sagaMiddleware = createSagaMiddleware();
 
 const middlewareList = process.env.NODE_ENV === 'development' ?
